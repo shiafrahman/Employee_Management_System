@@ -1,0 +1,89 @@
+-- Database: EmployeeManagementSystem
+CREATE DATABASE EmployeeManagementSystem;
+GO
+
+USE EmployeeManagementSystem;
+GO
+
+-- Department Table
+CREATE TABLE Department (
+    DepartmentID INT IDENTITY(1,1) PRIMARY KEY,
+    DepartmentName NVARCHAR(100) NOT NULL,
+    Budget DECIMAL(18,2) NOT NULL,
+    ManagerID INT NULL -- Temporarily add the column without a foreign key
+);
+
+-- Employee Table
+CREATE TABLE Employee (
+    EmployeeID INT IDENTITY(1,1) PRIMARY KEY,
+    Name NVARCHAR(100) NOT NULL,
+    Email NVARCHAR(100) NOT NULL UNIQUE,
+    Phone NVARCHAR(15) NOT NULL,
+    Position NVARCHAR(50) NOT NULL,
+    JoinDate DATE NOT NULL,
+    DepartmentID INT,
+    Status NVARCHAR(10) DEFAULT 'active', -- 'active' or 'inactive'
+    IsDeleted BIT DEFAULT 0, -- Soft delete flag
+    CONSTRAINT FK_Employee_Department FOREIGN KEY (DepartmentID)
+    REFERENCES Department(DepartmentID)
+);
+
+-- Add the foreign key constraint for ManagerID
+ALTER TABLE Department
+ADD CONSTRAINT FK_Department_Manager FOREIGN KEY (ManagerID)
+REFERENCES Employee(EmployeeID);
+
+-- PerformanceReview Table
+CREATE TABLE PerformanceReview (
+    ReviewID INT IDENTITY(1,1) PRIMARY KEY,
+    EmployeeID INT NOT NULL,
+    ReviewDate DATE NOT NULL,
+    ReviewScore INT CHECK (ReviewScore BETWEEN 1 AND 10),
+    ReviewNotes NVARCHAR(500),
+    CONSTRAINT FK_PerformanceReview_Employee FOREIGN KEY (EmployeeID)
+    REFERENCES Employee(EmployeeID)
+);
+
+-- Indexes for Optimization
+CREATE INDEX IX_Employee_Name ON Employee (Name);
+CREATE INDEX IX_Employee_DepartmentID ON Employee (DepartmentID);
+CREATE INDEX IX_Department_ManagerID ON Department (ManagerID);
+CREATE INDEX IX_PerformanceReview_EmployeeID ON PerformanceReview (EmployeeID);
+
+-- Sample Query for Calculating Average Performance Score by Department
+CREATE VIEW DepartmentPerformance AS
+SELECT 
+    d.DepartmentName,
+    AVG(pr.ReviewScore) AS AvgPerformanceScore
+FROM 
+    Department d
+    INNER JOIN Employee e ON d.DepartmentID = e.DepartmentID
+    INNER JOIN PerformanceReview pr ON e.EmployeeID = pr.EmployeeID
+GROUP BY 
+    d.DepartmentName;
+
+-- Soft Delete Trigger for Employee
+CREATE TRIGGER trg_SoftDeleteEmployee
+ON Employee
+INSTEAD OF DELETE
+AS
+BEGIN
+    UPDATE Employee
+    SET IsDeleted = 1, Status = 'inactive'
+    WHERE EmployeeID IN (SELECT EmployeeID FROM deleted);
+END;
+
+-- Sample Data Insertion
+INSERT INTO Department (DepartmentName, Budget)
+VALUES ('IT', 50000), ('HR', 30000), ('Finance', 60000);
+
+INSERT INTO Employee (Name, Email, Phone, Position, JoinDate, DepartmentID)
+VALUES 
+('John Doe', 'john.doe@example.com', '1234567890', 'Developer', '2023-01-15', 1),
+('Jane Smith', 'jane.smith@example.com', '9876543210', 'HR Manager', '2022-05-10', 2);
+
+INSERT INTO PerformanceReview (EmployeeID, ReviewDate, ReviewScore, ReviewNotes)
+VALUES 
+(1, '2023-04-01', 9, 'Excellent performance'),
+(1, '2023-07-01', 8, 'Consistent performance'),
+(2, '2023-06-01', 7, 'Good but needs improvement');

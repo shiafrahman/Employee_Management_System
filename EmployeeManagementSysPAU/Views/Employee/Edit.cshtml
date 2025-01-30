@@ -1,0 +1,293 @@
+﻿@using EmployeeManagementSystemPAU.Models
+@model EmployeeManagementSystemPAU.Models.Employee
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2 class="text-center mb-4 form-title">Edit Employee Details</h2>
+    <form asp-action="Edit" method="post" class="needs-validation form-container">
+        <input type="hidden" asp-for="EmployeeID" />
+
+        <div class="row">
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Name" class="form-label">Name</label>
+                <input type="text" asp-for="Name" class="form-control input-field" placeholder="Enter employee name" required>
+                <span asp-validation-for="Name" class="text-danger validation-message"></span>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input type="email" asp-for="Email" class="form-control input-field" placeholder="Enter employee email" required>
+                <span asp-validation-for="Email" class="text-danger validation-message"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Phone" class="form-label">Phone</label>
+                <input type="text" asp-for="Phone" class="form-control input-field" placeholder="Enter employee phone" required>
+                <span asp-validation-for="Phone" class="text-danger validation-message"></span>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Position" class="form-label">Position</label>
+                <input type="text" asp-for="Position" class="form-control input-field" placeholder="Enter employee position" required>
+                <span asp-validation-for="Position" class="text-danger validation-message"></span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="JoinDate" class="form-label">Join Date</label>
+                <input type="date" asp-for="JoinDate" class="form-control input-field" required>
+                <span asp-validation-for="JoinDate" class="text-danger validation-message"></span>
+            </div>
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="DepartmentID" class="form-label">Department</label>
+                <select name="DepartmentID" id="DepartmentID" class="form-control select-field" required>
+                    <option value="">-- Select Department --</option>
+                    @foreach (var department in (IEnumerable<Department>)ViewBag.Departments)
+                    {
+                        if (Model.DepartmentID == department.DepartmentID)
+                        {
+                            <option value="@department.DepartmentID" selected>@department.DepartmentName</option>
+                        }
+                        else
+                        {
+                            <option value="@department.DepartmentID">@department.DepartmentName</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="DepartmentID" class="text-danger validation-message"></span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-control select-field" required>
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger validation-message"></span>
+            </div>
+        </div>
+
+        @* <div class="row">
+            <div class="col-md-6 mb-3 form-group">
+                <label asp-for="Status" class="form-label">Status</label>
+                <select asp-for="Status" class="form-control select-field" required>
+                    <option value="Active" selected="@((Model.Status == "Active") ? "selected" : "")">Active</option>
+                    <option value="Inactive" selected="@((Model.Status == "Inactive") ? "selected" : "")">Inactive</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger validation-message"></span>
+            </div>
+        </div> *@
+
+        <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success submit-button me-2">Save Changes</button>
+            <a href="@Url.Action("Index", "Employee")" class="btn btn-secondary cancel-button">Cancel</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<style>
+    /* Global Styles */
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    /* Form Container */
+    .form-container {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Form Title */
+    .form-title {
+        color: #333;
+        font-weight: bold;
+    }
+
+    /* Form Labels */
+    .form-label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    /* Input Fields */
+    .input-field {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+    }
+
+        .input-field:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 10px rgba(0, 123, 255, 0.25);
+        }
+
+    /* Select Fields */
+    .select-field {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+    }
+
+    /* Validation Messages */
+    .validation-message {
+        font-size: 14px;
+        color: red;
+    }
+
+    /* Submit and Cancel Buttons */
+    .submit-button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+    .cancel-button {
+        background-color: #6c757d;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .cancel-button:hover {
+            background-color: #5a6268;
+        }
+
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using EmployeeManagementSystemPAU.Models
+@model EmployeeManagementSystemPAU.Models.Employee
+
+@{
+	ViewData["Title"] = "Edit";
+	Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+	<h2>Edit Employee</h2>
+	<form asp-action="Edit" method="post">
+		<input type="hidden" asp-for="EmployeeID" />
+
+		<div class="form-group">
+			<label asp-for="Name">Name</label>
+			<input type="text" asp-for="Name" class="form-control" placeholder="Enter employee name" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Email">Email</label>
+			<input type="email" asp-for="Email" class="form-control" placeholder="Enter employee email" />
+			<span asp-validation-for="Email" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Phone">Phone</label>
+			<input type="text" asp-for="Phone" class="form-control" placeholder="Enter employee phone" />
+			<span asp-validation-for="Phone" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Position">Position</label>
+			<input type="text" asp-for="Position" class="form-control" placeholder="Enter employee position" />
+			<span asp-validation-for="Position" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="JoinDate">Join Date</label>
+			<input type="date" asp-for="JoinDate" class="form-control" />
+			<span asp-validation-for="JoinDate" class="text-danger"></span>
+		</div>
+		<div class="form-group">
+			<label asp-for="DepartmentID">Department</label>
+			<select name="DepartmentID" id="DepartmentID" class="form-control">
+				<option value="">-- Select Department --</option>
+				@foreach (var department in (IEnumerable<Department>)ViewBag.Departments)
+				{
+					if (Model.DepartmentID == department.DepartmentID)
+					{
+						<option value="@department.DepartmentID" selected>@department.DepartmentName</option>
+					}
+					else
+					{
+						<option value="@department.DepartmentID">@department.DepartmentName</option>
+					}
+				}
+			</select>
+			<span asp-validation-for="DepartmentID" class="text-danger"></span>
+		</div>
+
+		<div class="form-group">
+			<label asp-for="Status">Status</label>
+			<select asp-for="Status" class="form-control">
+				<option value="Active" selected="@((Model.Status == "Active") ? "selected" : "")">Active</option>
+				<option value="Inactive" selected="@((Model.Status == "Inactive") ? "selected" : "")">Inactive</option>
+			</select>
+			<span asp-validation-for="Status" class="text-danger"></span>
+		</div>
+
+		<button type="submit" class="btn btn-success">Save</button>
+		<a href="@Url.Action("Index", "Employee")" class="btn btn-secondary">Cancel</a>
+	</form>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+}
+ *@

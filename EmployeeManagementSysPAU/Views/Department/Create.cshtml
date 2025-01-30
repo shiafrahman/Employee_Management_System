@@ -1,0 +1,249 @@
+﻿@using EmployeeManagementSystemPAU.Models
+@model EmployeeManagementSystemPAU.Models.Department
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="card create-department-card">
+        <div class="card-header">
+            <h2 class="card-title">Create New Department</h2>
+        </div>
+        <div class="card-body">
+            <form asp-action="Create" method="post">
+                <div class="form-group">
+                    <label asp-for="DepartmentName" class="form-label">Department Name</label>
+                    <input type="text" asp-for="DepartmentName" class="form-control input-field" placeholder="Enter Department name" />
+                    <span asp-validation-for="DepartmentName" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Budget" class="form-label">Budget</label>
+                    <input type="number" asp-for="Budget" class="form-control input-field" placeholder="Enter Budget" />
+                    <span asp-validation-for="Budget" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="ManagerID" class="form-label">Manager</label>
+                    <select asp-for="ManagerID" class="form-control select-field">
+                        <option value="">-- Select Manager --</option>
+                        @foreach (var employee in ViewBag.Employee as IEnumerable<Employee>)
+                        {
+                            <option value="@employee.EmployeeID">
+                                @employee.Name
+                            </option>
+                        }
+                    </select>
+                    <span asp-validation-for="ManagerID" class="text-danger validation-message"></span>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit" class="btn btn-primary submit-button">Create Department</button>
+                    <a href="@Url.Action("Index", "Department")" class="btn btn-secondary cancel-button">Cancel</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    
+    .create-department-card {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .card-header {
+        background-color: #007bff;
+        color: white;
+        padding: 10px;
+        border-radius: 10px 10px 0 0;
+    }
+
+    .card-body {
+        padding: 20px;
+    }
+
+   
+    .form-label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    
+    .input-field {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+    }
+
+   
+    .select-field {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+    }
+
+    
+    .validation-message {
+        font-size: 14px;
+        color: red;
+    }
+
+    
+    .button-group {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 20px;
+    }
+
+    
+    .submit-button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .submit-button:hover {
+            background-color: #0056b3;
+        }
+
+    .cancel-button {
+        background-color: #6c757d;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+    }
+
+        .cancel-button:hover {
+            background-color: #5a6268;
+        }
+
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using EmployeeManagementSystemPAU.Models
+@model EmployeeManagementSystemPAU.Models.Department
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Create New Employee</h2>
+    <form asp-action="Create" method="post">
+        <div class="form-group">
+            <label asp-for="DepartmentName">Department Name</label>
+            <input type="text" asp-for="DepartmentName" class="form-control" placeholder="Enter Department name" />
+            <span asp-validation-for="DepartmentName" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Budget">Budget</label>
+            <input type="number" asp-for="Budget" class="form-control" placeholder="Enter Budget" />
+            <span asp-validation-for="Budget" class="text-danger"></span>
+        </div>
+
+        
+
+        
+
+        
+
+        <div class="form-group">
+            <label asp-for="ManagerID">Manager</label>
+            <select asp-for="ManagerID" class="form-control">
+                <option value="">-- Select Mamager --</option>
+                @foreach (var employee in ViewBag.Employee as IEnumerable<Employee>)
+                {
+                    <option value="@employee.EmployeeID">
+                        @employee.Name
+                    </option>
+                }
+            </select>
+            <span asp-validation-for="ManagerID" class="text-danger"></span>
+        </div>
+
+        
+
+        <button type="submit" class="btn btn-success">Save</button>
+        <a href="@Url.Action("Index", "Department")" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
+ *@

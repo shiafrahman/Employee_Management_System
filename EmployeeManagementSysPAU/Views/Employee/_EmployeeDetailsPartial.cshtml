@@ -1,0 +1,103 @@
+﻿@using EmployeeManagementSystemPAU.Models
+@model Employee
+
+<div class="employee-details">
+    <div class="form-group">
+        <label for="EmployeeName" class="form-label">Name:</label>
+        <input type="text" id="EmployeeName" class="form-control input-field" value="@Model.Name" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeeEmail" class="form-label">Email:</label>
+        <input type="email" id="EmployeeEmail" class="form-control input-field" value="@Model.Email" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeePhone" class="form-label">Phone:</label>
+        <input type="text" id="EmployeePhone" class="form-control input-field" value="@Model.Phone" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeePosition" class="form-label">Position:</label>
+        <input type="text" id="EmployeePosition" class="form-control input-field" value="@Model.Position" disabled />
+    </div>
+
+    <div class="form-group">
+        <label for="EmployeeStatus" class="form-label">Status:</label>
+        <input type="text" id="EmployeeStatus" class="form-control input-field" value="@Model.Status" disabled />
+    </div>
+</div>
+<style>
+    
+    .employee-details {
+        padding: 20px;
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    
+    .form-label {
+        font-size: 16px;
+        margin-bottom: 8px;
+        display: block;
+    }
+
+    
+    .input-field {
+        padding: 12px;
+        border-radius: 6px;
+        border: 1px solid #ccc;
+        background-color: #f0f0f0;
+        cursor: not-allowed; 
+    }
+
+    
+</style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using EmployeeManagementSystemPAU.Models
+@model Employee
+<div class="employee-details">
+    <div class="form-group">
+        <label for="EmployeeName">Name:</label>
+        <input type="text" id="EmployeeName" class="form-control" value="@Model.Name" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeeEmail">Email:</label>
+        <input type="email" id="EmployeeEmail" class="form-control" value="@Model.Email" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeePhone">Phone:</label>
+        <input type="text" id="EmployeePhone" class="form-control" value="@Model.Phone" disabled />
+    </div>
+    <div class="form-group">
+        <label for="EmployeePosition">Position:</label>
+        <input type="text" id="EmployeePosition" class="form-control" value="@Model.Position" disabled />
+    </div>
+   
+    <div class="form-group">
+        <label for="EmployeeStatus">Status:</label>
+        <input type="text" id="EmployeeStatus" class="form-control" value="@Model.Status" disabled />
+    </div>
+</div> *@

@@ -1,0 +1,367 @@
+﻿@using EmployeeManagementSysPAU.ViewModel
+@model IEnumerable<DepartmentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    
+    .form-title {
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 20px;
+    }
+
+    
+    .button-group {
+        display: flex;
+        justify-content: flex-start;
+        margin-bottom: 20px;
+    }
+
+    
+    .add-button {
+        background-color: #007bff;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .add-button:hover {
+            background-color: #0056b3;
+        }
+
+   
+    .view-performance-button {
+        background-color: #17a2b8;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        margin-left: 10px;
+    }
+
+        .view-performance-button:hover {
+            background-color: #138496;
+        }
+
+    
+    .table-striped {
+        border-collapse: collapse;
+    }
+
+    
+    .edit-button {
+        background-color: #007bff;
+        color: white;
+        padding: 6px 12px;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+        .edit-button:hover {
+            background-color: #0056b3;
+        }
+
+    
+    .modal-content {
+        background-color: #f9f9f9;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    
+    
+    .add-button, .view-performance-button {
+        margin-bottom: 10px;
+    }
+
+    }
+</style>
+
+<div class="container mt-4">
+    <h2 class="text-center form-title">Department List</h2>
+    <div class="button-group">
+        <a href="@Url.Action("Create", "Department")" class="btn btn-primary mb-3 add-button">Add Department</a>
+        <button class="btn btn-info mb-3 view-performance-button" id="viewPerformanceBtn">View Department Performance</button>
+    </div>
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr>
+                <th>Department Name</th>
+                <th>Budget</th>
+                <th>Manager</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dpt in Model)
+            {
+                <tr>
+                    <td>@dpt.DepartmentName</td>
+                    <td>@dpt.Budget</td>
+                    <td>@dpt.ManagerName</td>
+                    <td>
+                        <a href="@Url.Action("Edit", "Department", new { id = dpt.DepartmentID })" class="btn btn-sm btn-primary edit-button">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="performanceModal" tabindex="-1" role="dialog" aria-labelledby="performanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="performanceModalLabel">Department Performance</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered table-striped" id="performanceTable">
+                    <thead>
+                        <tr>
+                            <th>Department Name</th>
+                            <th>Average Performance Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $("#viewPerformanceBtn").click(function() {
+            $.ajax({
+                url: '@Url.Action("GetDepartmentPerformance", "Department")',
+                type: 'GET',
+                success: function(data) {
+                    $('#performanceTable tbody').empty();
+                    data.forEach(function(department) {
+                        var avgScore = department.avgPerformanceScore;
+                        if (avgScore !== null && avgScore !== undefined && !isNaN(avgScore)) {
+                            avgScore = avgScore.toFixed(2);
+                        } else {
+                            avgScore = 'N/A';
+                        }
+                        $('#performanceTable tbody').append(
+                            '<tr>' +
+                                '<td>' + department.departmentName + '</td>' +
+                                '<td>' + avgScore + '</td>' +
+                            '</tr>'
+                        );
+                    });
+                    $('#performanceModal').modal('show');
+                },
+                error: function() {
+                    alert('Error loading department performance data');
+                }
+            });
+        });
+
+        $('.close').click(function() {
+            $('#performanceModal').modal('hide');
+        });
+    });
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@* @using EmployeeManagementSysPAU.ViewModel
+@model IEnumerable<DepartmentViewModel>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-4">
+    <h2>Employee List</h2>
+    <a href="@Url.Action("Create", "Department")" class="btn btn-primary mb-3">Add Department</a>
+    <button class="btn btn-info mb-3" id="viewPerformanceBtn">View Department Performance</button>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+
+                <th>Department Name</th>
+                <th>Budget</th>
+                <th>Manager</th>
+                
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var dpt in Model)
+            {
+                <tr>
+
+                    <td>@dpt.DepartmentName</td>
+                    <td>@dpt.Budget</td>
+                    <td>@dpt.ManagerName</td>
+                    
+                    <td>
+                        <a href="@Url.Action("Edit", "Department", new { id = dpt.DepartmentID })" class="btn btn-sm btn-primary">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="modal fade" id="performanceModal" tabindex="-1" role="dialog" aria-labelledby="performanceModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="performanceModalLabel">Department Performance</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table class="table table-bordered" id="performanceTable">
+                    <thead>
+                        <tr>
+                            <th>Department Name</th>
+                            <th>Average Performance Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+
+
+
+<script>
+    $(document).ready(function() {
+      
+        $("#viewPerformanceBtn").click(function() {
+            
+
+               $.ajax({
+        url: '@Url.Action("GetDepartmentPerformance", "Department")', 
+        type: 'GET',
+        success: function(data) {
+           
+            $('#performanceTable tbody').empty();
+
+           
+            data.forEach(function(department) {
+                
+                var avgScore = department.avgPerformanceScore;
+
+                if (avgScore !== null && avgScore !== undefined && !isNaN(avgScore)) {
+                    avgScore = avgScore.toFixed(2);  
+                } else {
+                    avgScore = 'N/A';  
+                }
+
+                $('#performanceTable tbody').append(
+                    '<tr>' +
+                        '<td>' + department.departmentName + '</td>' +
+                        '<td>' + avgScore + '</td>' +
+                    '</tr>'
+                );
+            });
+
+            
+            $('#performanceModal').modal('show');
+        },
+        error: function() {
+            alert('Error loading department performance data');
+        }
+    });
+        });
+
+        $('.close').click(function() {
+            $('#performanceModal').modal('hide');
+        });
+    });
+</script>
+
+
+ *@

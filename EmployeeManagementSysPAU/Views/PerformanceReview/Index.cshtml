@@ -1,0 +1,30 @@
+﻿@model IEnumerable<EmployeeManagementSystemPAU.Models.PerformanceReview>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Performance Reviews for @ViewBag.Employee.Name</h2>
+<a href="@Url.Action("Create", new { employeeId = ViewBag.Employee.EmployeeID })" class="btn btn-primary">Add Review</a>
+
+<table class="table table-bordered">
+    <tr>
+        <th>Date</th>
+        <th>Score</th>
+        <th>Notes</th>
+        <th>Actions</th>
+    </tr>
+    @foreach (var review in Model)
+    {
+        <tr>
+            <td>@review.ReviewDate.ToShortDateString()</td>
+            <td>@review.ReviewScore</td>
+            <td>@review.ReviewNotes</td>
+            <td>
+                <a href="@Url.Action("Edit", new { id = review.ReviewID })" class="btn btn-warning">Edit</a>
+                <a href="@Url.Action("Delete", new { id = review.ReviewID })" class="btn btn-danger">Delete</a>
+            </td>
+        </tr>
+    }
+</table>
