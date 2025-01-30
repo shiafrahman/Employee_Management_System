@@ -1,5 +1,5 @@
 # Project Overview
-This project is a full-stack Employee Management System built using ASP.NET Core 8 for the backend and HTML, CSS, and JavaScript for the frontend. The system includes CRUD operations for employees, department management, and employee performance reviews. It also features search, filtering, pagination, and performance optimization using indexed database queries.
+This project is a full-stack Employee Management System built using ASP.NET Core 8 for the backend, HTML, CSS, and JavaScript for the frontend and Use Dapper ORM. The system includes CRUD operations for employees, department management, and employee performance reviews. It also features search, filtering, pagination, and performance optimization using indexed database queries.
 
 Features
 ============
@@ -39,4 +39,7 @@ Foreign Key Constraints: Ensuring referential integrity between entities
 
 Instructions
 ==============================================
-I provide the query for making tables and Views , Indexing in the File 
+I provide the query for making tables and Views , Indexing in the File DataBasescript.txt. Here you you get the querys for my project. You can create a Database and then execute the query and then change the connection string and run the project.
+
+Please feel free to contact me if you face any problem to run the project.
+Thank You.
